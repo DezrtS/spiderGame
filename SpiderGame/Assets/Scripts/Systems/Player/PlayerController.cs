@@ -35,6 +35,10 @@ public class PlayerController : Singleton<PlayerController>
     [SerializeField] private int segmentCount = 50;
     [SerializeField] private float curveLength = 3.5f;
 
+    [Space(10)]
+    [Header("Grounded Checks")]
+    [SerializeField] private float groundedCheckDistance = 1.5f;
+
     private XRIDefaultInputActions inputActions;
     private InputAction leftHand;
     private InputAction rightHand;
@@ -58,6 +62,8 @@ public class PlayerController : Singleton<PlayerController>
     private Vector3[] jumpTrajectory;
     private int jumpTrajectoryEndIndex;
     private Vector3 jumpTrajectoryEndPoint;
+
+    private bool isGrounded;
 
     public LayerMask GrabAbleLayer {  get { return grabAbleLayer; } }
     public float JumpSpeed { get { return jumpSpeed; } }
@@ -138,6 +144,9 @@ public class PlayerController : Singleton<PlayerController>
     {
         //leftGrabSphere.position = transform.position + transform.rotation * leftHand.ReadValue<Vector3>() + new Vector3(0, 1.15f, 0);
         //rightGrabSphere.position = transform.position + transform.rotation * rightHand.ReadValue<Vector3>() + new Vector3(0, 1.15f, 0);
+
+        CheckIfGrounded();
+        //Debug.Log($"IsGrounded : {isGrounded}");
 
         if (isJumping)
         {
@@ -222,6 +231,13 @@ public class PlayerController : Singleton<PlayerController>
         }
 
         rig.velocity = new Vector3(velocity.x, rig.velocity.y, velocity.z);
+    }
+
+    public bool CheckIfGrounded()
+    {
+        isGrounded = (Physics.Raycast(playerTransform.position, Vector3.down, groundedCheckDistance, grabAbleLayer, QueryTriggerInteraction.Ignore));
+
+        return isGrounded;
     }
 
     public void OnGrab(InputAction.CallbackContext obj)
@@ -350,7 +366,7 @@ public class PlayerController : Singleton<PlayerController>
 
     public void OnJump(InputAction.CallbackContext obj)
     {
-        if (isJumping)
+        if (isJumping || (!(leftHandGrabbed || rightHandGrabbed) && !isGrounded))
         {
             if (IsLeftHand(obj.action.actionMap.name))
             {
@@ -445,16 +461,18 @@ public class PlayerController : Singleton<PlayerController>
 
     private IEnumerator JumpCoroutine()
     {
+        Vector3 diff = jumpTrajectoryEndPoint - transform.position;
+        diff.y = 0;
+
+        // Could Fix Sometimes above ground on landing
+
         for (int i = 0; i < jumpTrajectoryEndIndex; i++)
         {
             float t = 0f;
             Vector3 offset = transform.position - playerTransform.position;
             Vector3 startPosition = transform.position;
-            Vector3 diff = jumpTrajectoryEndPoint - startPosition;
-            diff.y = 0;
             Vector3 endPosition = jumpTrajectory[i] + ((-diff.normalized * capCollider.radius + offset) + 0.5f * capCollider.height * Vector3.up) * i / jumpTrajectoryEndIndex;
 
-            // The problem most likely is from how the diff is calculated.
 
 
             Quaternion targetRotation = Quaternion.LookRotation(diff.normalized, Vector3.up);
