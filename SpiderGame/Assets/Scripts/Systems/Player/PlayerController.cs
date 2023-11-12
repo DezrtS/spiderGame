@@ -37,6 +37,7 @@ public class PlayerController : Singleton<PlayerController>
 
     [Space(10)]
     [Header("Grounded Checks")]
+    [SerializeField] private LayerMask groundMask;
     [SerializeField] private float groundedCheckDistance = 1.5f;
 
     private XRIDefaultInputActions inputActions;
@@ -235,7 +236,7 @@ public class PlayerController : Singleton<PlayerController>
 
     public bool CheckIfGrounded()
     {
-        isGrounded = (Physics.Raycast(playerTransform.position, Vector3.down, groundedCheckDistance, grabAbleLayer, QueryTriggerInteraction.Ignore));
+        isGrounded = (Physics.Raycast(playerTransform.position, Vector3.down, groundedCheckDistance, groundMask, QueryTriggerInteraction.Ignore));
 
         return isGrounded;
     }
@@ -394,10 +395,14 @@ public class PlayerController : Singleton<PlayerController>
             }
 
             leftHandAiming = false;
-            DropAll();
             isJumping = true;
             Jump(leftTrajectoryLine);
             leftTrajectoryLine.Activate(false);
+
+            if (isJumping)
+            {
+                DropAll();
+            }
         }
         else
         {
@@ -408,10 +413,14 @@ public class PlayerController : Singleton<PlayerController>
             }
 
             rightHandAiming = false;
-            DropAll();
             isJumping = true;
             Jump(rightTrajectoryLine);
             rightTrajectoryLine.Activate(false);
+
+            if (isJumping)
+            {
+                DropAll();
+            }
         }
     }
 
