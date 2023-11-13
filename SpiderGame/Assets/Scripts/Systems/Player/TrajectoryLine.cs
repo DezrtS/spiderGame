@@ -56,7 +56,7 @@ public class TrajectoryLine : MonoBehaviour
         grabAbleLayer = PlayerController.Instance.GrabAbleLayer;
     }
 
-    void Update()
+    void LateUpdate()
     {
         if (!trajectoryActive)
         {

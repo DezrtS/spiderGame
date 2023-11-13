@@ -234,6 +234,14 @@ public class PlayerController : Singleton<PlayerController>
         rig.velocity = new Vector3(velocity.x, rig.velocity.y, velocity.z);
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyUp(KeyCode.R))
+        {
+            SceneManager.Instance.ResetScene();
+        }
+    }
+
     public bool CheckIfGrounded()
     {
         isGrounded = (Physics.Raycast(playerTransform.position, Vector3.down, groundedCheckDistance, groundMask, QueryTriggerInteraction.Ignore));
@@ -528,5 +536,27 @@ public class PlayerController : Singleton<PlayerController>
     public float GetAcceleration(float maxSpeed, float timeToReachFullSpeed)
     {
         return (maxSpeed) / timeToReachFullSpeed;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Death"))
+        {
+            StopAllCoroutines();
+            SceneManager.Instance.ResetScene();
+        }
+        else if (other.CompareTag("Goal"))
+        {
+            Timer.Instance.Deactivate();
+
+            if (Drone.Instance.hasArrived)
+            {
+                Debug.Log("Player Lost To Drone");
+            }
+            else
+            {
+                Debug.Log("Player Wins");
+            }
+        }
     }
 }
