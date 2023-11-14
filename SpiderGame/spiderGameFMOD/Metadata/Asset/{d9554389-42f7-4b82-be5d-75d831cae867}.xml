@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="EncodableAsset" id="{d9554389-42f7-4b82-be5d-75d831cae867}">
+		<property name="assetPath">
+			<value>Air sfx/</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{ca0b9fc1-6faf-45f5-83d4-ca1f37dc1bf5}</destination>
+		</relationship>
+	</object>
+</objects>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{fb9de2fa-d574-42dc-9ec7-c3fa71772c10}">
+		<property name="assetPath">
+			<value>Air sfx/whoosh 2.mp3</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>0.966530612244898</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{ca0b9fc1-6faf-45f5-83d4-ca1f37dc1bf5}</destination>
+		</relationship>
+	</object>
+</objects>

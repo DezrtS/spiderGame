@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{15b55fb3-d9c7-43e9-9a0b-af5cf5591574}">
+		<property name="assetPath">
+			<value>Building sfx/building hit 1.mp3</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>1.1493877551020408</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{ca0b9fc1-6faf-45f5-83d4-ca1f37dc1bf5}</destination>
+		</relationship>
+	</object>
+</objects>
